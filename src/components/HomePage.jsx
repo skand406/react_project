@@ -7,7 +7,6 @@ import { app } from '../firebase'
 import { getDatabase, ref, set, get } from 'firebase/database';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
-import { BsCart4 } from 'react-icons/bs';
 
 const HomePage = () => {
     const db = getDatabase(app)
