@@ -4,12 +4,15 @@ import { Row, Col, Card, InputGroup, Button, Form } from 'react-bootstrap'
 import BookPage from './BookPage'
 import { CiShoppingCart } from "react-icons/ci";
 import { app } from '../firebase'
-import { getDatabase, ref, set, get } from 'firebase/database';
+import { getDatabase, ref, set, get, onValue, remove } from 'firebase/database';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 
 const HomePage = () => {
     const db = getDatabase(app)
+    const [heart, setHeart] = useState()
     const [loading, setLoading] = useState(false)
     const uid = sessionStorage.getItem('uid')
     const navi = useNavigate()
@@ -32,7 +35,7 @@ const HomePage = () => {
             }
         }
         const res = await axios.get(url, config)
-        console.log(res)
+        //console.log(res)
         setDocuments(res.data.documents)
         setLast(Math.ceil(res.data.meta.pageable_count / 12))
     }
@@ -65,6 +68,37 @@ const HomePage = () => {
             navi('/login')
         }
     }
+    //빈하트를 클릭했을때
+    const onClickRegHeart = (book) => {
+        if(uid){ //관심 목록 등록
+            set(ref(db,`heart/${uid}/${book.isbn}`),book)
+            alert('관심 목록에 추가되었습니다.')
+        }else{
+            alert('로그인이 필요한 서비스입니다.')
+            navi('/login') 
+        }
+    }
+    //채운 하트를 클릭했을때
+    const onClickFaHeart = (book) =>{
+        remove(ref(db, `heart/${uid}/${book.isbn}`),book)
+    }
+    //현재 이메일의 관심 목록
+    const checkHeart = () => {
+        setLoading(true)
+        onValue(ref(db,`heart/${uid}`), snapshot =>{
+            const rows = []
+            snapshot.forEach(row=>{
+                rows.push(row.val().isbn)
+            })
+            console.log(rows)
+            setHeart(rows)
+            setLoading(false)
+        })
+    }
+
+    useEffect(()=>{
+        checkHeart()
+    },[])
 
     if (loading) return <h1 className='text-center my-5'>로딩중...</h1>
     return (
@@ -86,10 +120,16 @@ const HomePage = () => {
             </Row>
             <Row>
                 {documents.map(doc =>
-                    <Col lg={2} md={3} xs={6} className='mb-2'>
+                    <Col lg={2} md={3} xs={6} className='mb-2' key={doc.isbn}>
                         <Card>
                             <Card.Body>
                                 <BookPage book={doc} />
+                                <div className='heart text-end'>
+                                    {heart.includes(doc.isbn) ? 
+                                        <FaHeart onClick={()=>onClickFaHeart(doc)}/>: 
+                                        <FaRegHeart onClick={()=>onClickRegHeart(doc)}/>
+                                    }
+                                </div>
                             </Card.Body>
                             <Card.Footer>
                                 <div className='text-truncate'>{doc.title}</div>

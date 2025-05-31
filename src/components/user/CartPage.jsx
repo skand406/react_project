@@ -32,7 +32,7 @@ const CartPage = () => {
         }
     }
 
-    if(loading) return <h1>로딩중...</h1>
+    if(loading) return <h1 className='text-center my-5'>로딩중...</h1>
     return (
         <div>
             <h1 className='mt-5 text-center'>장바구니</h1>
@@ -41,12 +41,15 @@ const CartPage = () => {
                     <tr>
                         <td></td>
                         <td>제목</td>
+                        <td>등록일</td>
+                        <td>삭제</td>
                     </tr>
                 </thead>
                 <tbody>
                     {books.map(book => 
                         <tr key={book.isbn}>
-                            <td><BookPage book={book} width={50}/></td>
+                            <td width={50} ><BookPage book={book} /></td>
+                            <td>{book.title}</td>
                             <td>{book.title}</td>
                             <td><Button 
                                 onClick={()=>onClickRemove(book)}
