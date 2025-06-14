@@ -35,7 +35,7 @@ const ReplyPage = ({ id }) => {
                             <TextareaAutosize
                                 onChange={(e) => setContents(e.target.value)}
                                 value={contents}
-                                placeholder='내용을 입력하세요요'
+                                placeholder='내용을 입력하세요'
                                 className='textarea' />
                             <Button
                                 disabled={contents === ''}
