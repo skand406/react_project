@@ -3,6 +3,7 @@ import { Card, Row, Col, Form, Button } from 'react-bootstrap'
 import {app} from '../../firebase'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
+import { SyncLoader } from 'react-spinners'
 
 const JoinPage = () => {
     const auth = getAuth(app);
@@ -42,7 +43,7 @@ const JoinPage = () => {
         }
     }
 
-    if(loading) return <h1 className='my-5 text-center'>로딩중...</h1>
+    if(loading) return <h1 className='my-5 text-center'><SyncLoader/></h1>
     return (
         <div>
             <Row className='my-5 justify-content-center'>
@@ -65,9 +66,8 @@ const JoinPage = () => {
                                     type='password'
                                     onChange={onChange}/>
                                 <Button
-                                     type='submit'
-                                    className='w-100' >로그인
-                                </Button>
+                                    type='submit'
+                                    className='w-100' >회원가입</Button>
                             </Form>
                         </Card.Body>
                     </Card>

@@ -3,6 +3,7 @@ import { Button, Card, Col, Form, Row } from 'react-bootstrap'
 import {app} from '../../firebase'
 import {getAuth, signInWithEmailAndPassword} from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
+import { SyncLoader } from 'react-spinners'
 
 const LoginPage = () => {
     const auth = getAuth(app) //파이어베이스 인증
@@ -46,7 +47,7 @@ const LoginPage = () => {
 
         }
     }
-    if(loading) return <h1 className='my-5 text-center'>로딩중...</h1>
+    if(loading) return <h1 className='my-5 text-center'><SyncLoader/></h1>
     return (
         <div>
             <Row className='my-5 justify-content-center'>

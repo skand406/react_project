@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
+import { SyncLoader } from 'react-spinners';
 
 const HomePage = () => {
     const db = getDatabase(app)
@@ -100,7 +101,7 @@ const HomePage = () => {
         checkHeart()
     },[])
 
-    if (loading) return <h1 className='text-center my-5'>로딩중...</h1>
+    if (loading) return <h1 className='text-center my-5'><SyncLoader/></h1>
     return (
         <div>
             <h1 className='my-5 text-center'>메인페이지</h1>

@@ -4,6 +4,7 @@ import { app } from '../../firebase'
 import { getFirestore, doc, getDoc, deleteDoc } from 'firebase/firestore'
 import { Button, Card, Col, Row } from 'react-bootstrap'
 import ReplyPage from './ReplyPage'
+import { SyncLoader } from 'react-spinners'
 const ReadPage = () => {
     const navi = useNavigate()
     const login = sessionStorage.getItem('email')
@@ -37,7 +38,7 @@ const ReadPage = () => {
         getPost()
     }, [])
 
-    if (loading) return <h1 className='my-5 text-center'>로딩중...</h1>
+    if (loading) return <h1 className='my-5 text-center'><SyncLoader />.</h1>
     return (
         <div>
             <h1 className='my-5 text-center'>게시글 정보</h1>
@@ -70,7 +71,7 @@ const ReadPage = () => {
                     </Card>
                 </Col>
             </Row>
-            <ReplyPage id={id}/>
+            <ReplyPage id={id} />
         </div>
     )
 }

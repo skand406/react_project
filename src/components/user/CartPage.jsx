@@ -3,6 +3,8 @@ import { app } from '../../firebase'
 import { getDatabase, ref, onValue, remove } from 'firebase/database'
 import { Table, Button } from 'react-bootstrap'
 import BookPage from '../BookPage'
+import {SyncLoader} from 'react-spinners'
+
 const CartPage = () => {
     const uid = sessionStorage.getItem('uid')
     const [loading, setLoading] = useState(false)
@@ -32,7 +34,7 @@ const CartPage = () => {
         }
     }
 
-    if(loading) return <h1 className='text-center my-5'>로딩중...</h1>
+    if(loading) return <h1 className='text-center my-5'><SyncLoader/></h1>
     return (
         <div>
             <h1 className='mt-5 text-center'>장바구니</h1>
